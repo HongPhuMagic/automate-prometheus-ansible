@@ -7,6 +7,6 @@
 
 - name: Clone github repo
   git:
-    repo: 
+    repo: https://github.com/HongPhuMagic/automate-prometheus-ansible.git
     clone: yes
     dest: /home/ec2-user/nodeserver
