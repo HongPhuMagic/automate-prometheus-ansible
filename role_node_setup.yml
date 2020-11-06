@@ -1,0 +1,7 @@
+- hosts: webservers
+  become: true
+  roles:
+    - git
+    - nginx_contain
+    - node_export_contrain
+    - webapp_contain
