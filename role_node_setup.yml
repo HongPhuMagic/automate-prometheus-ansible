@@ -1,7 +1,7 @@
-- hosts: webservers
+- name: Node setup
+  hosts: webservers
   become: true
   roles:
-    - git
     - nginx_contain
-    - node_export_contrain
+    - node_export_contain
     - webapp_contain

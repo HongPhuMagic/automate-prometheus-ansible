@@ -1,0 +1,28 @@
+- hosts: webservers
+  remote_user: root
+  tasks:
+    - name: Clone webapp
+      git:
+        repo: https://github.com/HongPhuMagic/LoL-na-op-gg-webscrape.git
+        clone: yes
+        dest: /home/ec2-user/automate-prometheus-ansible/roles/webapp_contain/files
+    
+    - name: Create container for webapp
+      docker_container:
+        name: sleepy
+        image: lol-webscrape
+
+    - name: Build lol-webscrape container
+      docker_container:
+        name: sleepy
+        image:  continuumio/anaconda3
+        command: ["python", "app.py", "--ip='0.0.0.0'"]
+
+    - name: Add container to nodes
+      docker_container:
+        name: sleepy
+        networks:
+          - name: Node1
+            ipv4_address: 99.79.42.107
+
+# docker run -p 80:5000 banaki9415/solar-irr

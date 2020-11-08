@@ -1,0 +1,56 @@
+- name: useradd node_exporter
+  user:
+    name: node_exporter
+    shell: /bin/false
+    create_home: no 
+
+- name: unarchieve node_exporter-1.0.1.linux-amd64.tar.gz
+  unarchive:
+    src: https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
+    dest: /home/ec2-user/node-exporter/
+    remote_src: yes
+
+- name: copying node_exporter to destination
+  copy:
+    src: /home/ec2-user/node-exporter/node_exporter-1.0.1.linux-amd64/node_exporter
+    dest: /usr/local/bin
+    owner: node_exporter
+    group: node_exporter
+    remote_src: yes
+    mode: '0755'
+
+- name: remove directory
+  file:
+    path: /home/ec2-user/node-exporter/node_exporter-1.0.1.linux-amd64.tar.gz
+    state: absent
+
+- name: remove directory
+  file:
+    path: /home/ec2-user/node-exporter/node_exporter-1.0.1.linux-amd64
+    state: absent
+
+- name: remove directory
+  file:
+    path: /home/ec2-user/node-exporter
+    state: absent
+
+- name: copying node_exporter.service to destination
+  copy:
+    src: /home/ec2-user/automate-prometheus-ansible/roles/node_exporter_contain/files/node_exporter.service
+    dest: /etc/systemd/system/
+    owner: node_exporter
+    group: node_exporter
+    remote_src: yes
+    mode: '0755'
+
+- name: reload daemon and making sure node_exporter service is running
+  systemd:
+    state: started
+    name: node_exporter
+    daemon_reload: yes
+    enabled: yes
+
+- name: reload daemon and making sure node_exporter service is running
+  systemd:
+    state: restarted
+    name: node_exporter
