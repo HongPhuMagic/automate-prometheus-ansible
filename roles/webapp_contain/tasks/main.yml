@@ -26,14 +26,14 @@
 
 - name: build lol-webscrap image
   docker_image:
-   path: /home/ec2-user/automate-prometheus-ansible/roles/webapp_contain/files/Dockerfile
-   name: lol-web-image
+   path: /home/ec2-user/automate-prometheus-ansible/roles/webapp_contain/files
+   name: lol-web-image2
 
 
 - name: create container
   docker_container:
     name: web
-    image: lol-web-image
+    image: lol-web-image2
     state: started
     ports:
     - "80:5000"
